@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 
@@ -35,9 +36,15 @@ class MyGdxGame : Game() {
         Stage(ScreenViewport())
     }
 
+    private val flatEarthSkin: Skin by lazy {
+        Skin(Gdx.files.internal("skins/flat-earth/flat-earth-ui.json"))
+    }
+
     override fun create() {
         createImages()
         createTitle()
+
+        flatEarthSkin
     }
 
     private fun createTitle() {
