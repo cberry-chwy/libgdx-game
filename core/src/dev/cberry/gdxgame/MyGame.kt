@@ -16,5 +16,4 @@ object MyGame : Game() {
         setScreen(MyGdxGame(this))
     }
 
-
 }

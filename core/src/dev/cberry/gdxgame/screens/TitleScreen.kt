@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -22,7 +24,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
  * 3. Draw grid
  * 4. Make something move
  */
-class MyGdxGame(game: Game) : Screen {
+class MyGdxGame(val game: Game) : Screen {
 
     private val badLogicTexture: Texture by lazy {
         Texture("images/badlogic.jpg")
@@ -34,9 +36,6 @@ class MyGdxGame(game: Game) : Screen {
 
     private val stage: Stage by lazy {
         Stage(ScreenViewport())
-    }
-
-    fun create() {
     }
 
     private fun createTitle() {
@@ -79,6 +78,14 @@ class MyGdxGame(game: Game) : Screen {
             hollyImg.getPositionX(2, 3, 1, 2),
             hollyImg.getPositionY(1, 3, 1, 2)
         )
+
+        hollyImg.addListener(object : InputListener() {
+            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                game.screen = GameScreen()
+            }
+
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean = true
+        })
 
         stage.addActor(badLogicImg)
         stage.addActor(badLogicRotateImg)
