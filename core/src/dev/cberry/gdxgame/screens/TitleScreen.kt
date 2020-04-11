@@ -1,7 +1,8 @@
-package dev.cberry.gdxgame
+package dev.cberry.gdxgame.screens
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
@@ -10,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 
@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
  * 3. Draw grid
  * 4. Make something move
  */
-class MyGdxGame : Game() {
+class MyGdxGame(game: Game) : Screen {
 
     private val badLogicTexture: Texture by lazy {
         Texture("images/badlogic.jpg")
@@ -36,15 +36,7 @@ class MyGdxGame : Game() {
         Stage(ScreenViewport())
     }
 
-    private val flatEarthSkin: Skin by lazy {
-        Skin(Gdx.files.internal("skins/flat-earth/flat-earth-ui.json"))
-    }
-
-    override fun create() {
-        createImages()
-        createTitle()
-
-        flatEarthSkin
+    fun create() {
     }
 
     private fun createTitle() {
@@ -93,16 +85,42 @@ class MyGdxGame : Game() {
         stage.addActor(hollyImg)
     }
 
-    override fun render() {
+    override fun hide() {
+
+    }
+
+    override fun show() {
+        Gdx.input.inputProcessor = stage
+    }
+
+    override fun render(delta: Float) {
         Gdx.gl.glClearColor(0.5f, 0f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         stage.act()
         stage.draw()
     }
 
+    override fun pause() {
+    }
+
+    override fun resume() {
+    }
+
+    override fun resize(width: Int, height: Int) {
+    }
+
     override fun dispose() {
         badLogicTexture.dispose()
+        hollyTexture.dispose()
+        stage.dispose()
     }
+
+    // keep at bottom of class
+    init {
+        createImages()
+        createTitle()
+    }
+
 }
 
 fun Image.getPositionX(windowStart: Int, windowEnd: Int, imgStart: Int, imgEnd: Int): Float =
