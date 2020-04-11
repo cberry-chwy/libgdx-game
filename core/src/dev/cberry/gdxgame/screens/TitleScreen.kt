@@ -79,7 +79,7 @@ class MyGdxGame(val game: Game) : Screen {
             hollyImg.getPositionY(1, 3, 1, 2)
         )
 
-        hollyImg.addListener(object : InputListener() {
+        stage.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                 game.screen = GameScreen()
             }
