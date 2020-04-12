@@ -1,6 +1,5 @@
 package dev.cberry.gdxgame.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
@@ -15,16 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import dev.cberry.gdxgame.MyGame
 
 
 /**
  * Todo
- * 1. Text on title screen
- * 2. Transition to new screen after delay
+ * 1. Text on title screen - done
+ * 2. Transition to new screen after delay - done
  * 3. Draw grid
  * 4. Make something move
+ * 5. Integrate Box2D physics engine (https://github.com/libgdx/libgdx/wiki/Box2d)
  */
-class MyGdxGame(val game: Game) : Screen {
+class TitleScreen(val game: MyGame) : Screen {
 
     private val badLogicTexture: Texture by lazy {
         Texture("images/badlogic.jpg")
@@ -81,7 +82,7 @@ class MyGdxGame(val game: Game) : Screen {
 
         stage.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = GameScreen()
+                game.screen = GameScreen(game)
             }
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean = true
