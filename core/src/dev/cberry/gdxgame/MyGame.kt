@@ -51,7 +51,7 @@ object MyGame : Game() {
 
         rectangle = Rectangle()
         rectangle.x = APP_WIDTH.toFloat() / 2 - robotTexture.width / 2
-        rectangle.y = 20f
+        rectangle.y = APP_HEIGHT.toFloat() * 2 / 12 - robotTexture.height / 2
         rectangle.width = robotTexture.width.toFloat()
         rectangle.height = robotTexture.height.toFloat()
 

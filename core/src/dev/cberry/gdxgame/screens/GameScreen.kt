@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
@@ -51,15 +52,20 @@ class GameScreen(val game: MyGame) : Screen {
         spriteBatch.draw(robotTexture, rectangle.x, rectangle.y)
         spriteBatch.end()
 
-        if (Gdx.input.isTouched) {
-            val touchPos = Vector3().apply {
-                set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
-            }
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
-            camera.unproject(touchPos)
-            rectangle.x = (touchPos.x - robotTexture.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
-            rectangle.y =
-                (touchPos.y - robotTexture.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robotTexture.height)
+            if (rectangle.overlaps(Rectangle(Gdx.input.x.toFloat(), APP_HEIGHT - Gdx.input.y.toFloat(), 1f, 1f))) {
+
+                val touchPos = Vector3().apply {
+                    set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
+                }
+
+                camera.unproject(touchPos)
+                rectangle.x =
+                    (touchPos.x - robotTexture.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
+                rectangle.y =
+                    (touchPos.y - robotTexture.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robotTexture.height)
+            }
         }
 
         stage.act()
