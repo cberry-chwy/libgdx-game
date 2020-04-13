@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -21,23 +19,15 @@ import dev.cberry.gdxgame.MyGame
  * Todo
  * 1. Text on title screen - done
  * 2. Transition to new screen after delay - done
- * 3. Draw grid
- * 4. Make something move
+ * 3. Draw grid - skipped
+ * 4. Make something move - done
  * 5. Integrate Box2D physics engine (https://github.com/libgdx/libgdx/wiki/Box2d)
  */
 class TitleScreen(val game: MyGame) : Screen {
 
-    private val badLogicTexture: Texture by lazy {
-        Texture("images/badlogic.jpg")
-    }
-
-    private val hollyTexture: Texture by lazy {
-        Texture("images/holler.jpg")
-    }
-
-    private val stage: Stage by lazy {
-        Stage(ScreenViewport())
-    }
+    private val badLogicTexture: Texture = Texture("images/badlogic.jpg")
+    private val hollyTexture: Texture = Texture("images/holler.jpg")
+    private val stage: Stage = Stage(ScreenViewport())
 
     private fun createTitle() {
         val dimension = 12
@@ -80,14 +70,6 @@ class TitleScreen(val game: MyGame) : Screen {
             hollyImg.getPositionY(1, 3, 1, 2)
         )
 
-        stage.addListener(object : InputListener() {
-            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
-                game.screen = GameScreen(game)
-            }
-
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean = true
-        })
-
         stage.addActor(badLogicImg)
         stage.addActor(badLogicRotateImg)
         stage.addActor(hollyImg)
@@ -104,6 +86,11 @@ class TitleScreen(val game: MyGame) : Screen {
     override fun render(delta: Float) {
         Gdx.gl.glClearColor(0.5f, 0f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+        if (Gdx.input.isTouched) {
+            game.screen = GameScreen(game)
+        }
+
         stage.act()
         stage.draw()
     }
@@ -128,12 +115,10 @@ class TitleScreen(val game: MyGame) : Screen {
         createImages()
         createTitle()
     }
-
 }
 
 fun Image.getPositionX(windowStart: Int, windowEnd: Int, imgStart: Int, imgEnd: Int): Float =
     Gdx.graphics.width * windowStart / windowEnd - width * imgStart / imgEnd
-
 
 fun Image.getPositionY(windowStart: Int, windowEnd: Int, imgStart: Int, imgEnd: Int): Float =
     Gdx.graphics.height * windowStart / windowEnd - height * imgStart / imgEnd
