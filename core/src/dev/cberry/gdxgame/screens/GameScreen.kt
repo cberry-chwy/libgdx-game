@@ -1,12 +1,16 @@
 package dev.cberry.gdxgame.screens
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.GameGrid
 import dev.cberry.gdxgame.MyGame
+import dev.cberry.gdxgame.constants.APP_HEIGHT
+import dev.cberry.gdxgame.constants.APP_WIDTH
 
 class GameScreen(val game: MyGame) : Screen {
 
@@ -30,11 +34,33 @@ class GameScreen(val game: MyGame) : Screen {
         Gdx.gl.glClearColor(0f, 0.5f, 0.5f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        game.camera.update()
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+        }
 
-        game.spriteBatch.projectionMatrix = game.camera.combined
+        val camera = game.camera
+        val spriteBatch = game.spriteBatch
+        val rectangle = game.rectangle
+        val robotTexture = game.robotTexture
 
-//        game.spriteBatch.draw()
+        camera.update()
+
+        spriteBatch.projectionMatrix = camera.combined
+
+        spriteBatch.begin()
+        spriteBatch.draw(robotTexture, rectangle.x, rectangle.y)
+        spriteBatch.end()
+
+        if (Gdx.input.isTouched) {
+            val touchPos = Vector3().apply {
+                set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
+            }
+
+            camera.unproject(touchPos)
+            rectangle.x = (touchPos.x - robotTexture.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
+            rectangle.y =
+                (touchPos.y - robotTexture.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robotTexture.height)
+        }
 
         stage.act()
         stage.draw()
