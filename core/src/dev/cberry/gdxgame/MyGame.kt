@@ -10,7 +10,7 @@ import dev.cberry.gdxgame.screens.TitleScreen
 object MyGame : Game() {
 
     // lazily initialize so Application can be created first
-    val spriteBatch: SpriteBatch by lazy { SpriteBatch() }
+    val batch: SpriteBatch by lazy { SpriteBatch() }
     val skin: Skin by lazy { Skin(Gdx.files.internal("skins/flat-earth/flat-earth-ui.json")) }
 
     override fun create() {

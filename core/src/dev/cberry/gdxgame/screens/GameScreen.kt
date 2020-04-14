@@ -6,28 +6,26 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.constants.APP_HEIGHT
 import dev.cberry.gdxgame.constants.APP_WIDTH
 
-class GameScreen(val game: MyGame) : Screen {
+class GameScreen(
+    private val game: MyGame
+) : Screen {
 
     private val stage: Stage = Stage(ScreenViewport())
     private val camera: OrthographicCamera = OrthographicCamera().apply {
         setToOrtho(false, APP_WIDTH.toFloat(), APP_HEIGHT.toFloat())
     }
-    private val robotTexture: Texture = Texture("images\\sprites\\Robot\\PNG\\Poses\\character_robot_idle.png")
-    private val robotRect: Rectangle = Rectangle().apply {
-        x = APP_WIDTH.toFloat() / 2 - robotTexture.width / 2
-        y = APP_HEIGHT.toFloat() * 2 / 12 - robotTexture.height / 2
-        width = robotTexture.width.toFloat()
-        height = robotTexture.height.toFloat()
-    }
-
+    private val robot: Robot =
+        Robot("images\\sprites\\Robot\\PNG\\Poses\\character_robot_idle.png", 96, 128)
 
     override fun hide() {
 
@@ -46,11 +44,11 @@ class GameScreen(val game: MyGame) : Screen {
         }
         camera.update()
 
-        game.spriteBatch.projectionMatrix = camera.combined
+        game.batch.projectionMatrix = camera.combined
 
-        game.spriteBatch.begin()
-        game.spriteBatch.draw(robotTexture, robotRect.x, robotRect.y)
-        game.spriteBatch.end()
+        game.batch.begin()
+        robot.draw(game.batch)
+        game.batch.end()
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
@@ -61,17 +59,17 @@ class GameScreen(val game: MyGame) : Screen {
             }
 
             camera.unproject(touchPos)
-            robotRect.x =
-                (touchPos.x - robotTexture.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
-            robotRect.y =
-                (touchPos.y - robotTexture.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robotTexture.height)
+            robot.box.x =
+                (touchPos.x - robot.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
+            robot.box.y =
+                (touchPos.y - robot.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robot.height)
 //            }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) robotRect.x =
-            (robotRect.x - 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) robotRect.x =
-            (robotRect.x + 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robotTexture.width)
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) robot.box.x =
+            (robot.box.x - 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) robot.box.x =
+            (robot.box.x + 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
 
         stage.act()
         stage.draw()
@@ -94,3 +92,25 @@ class GameScreen(val game: MyGame) : Screen {
     }
 }
 
+class Robot(
+    texturePath: String,
+    val width: Int,
+    val height: Int
+) {
+    private val texture: Texture = Texture(texturePath)
+
+    val box: Rectangle = Rectangle().apply {
+            val roboWidth = this@Robot.width.toFloat()
+            val robotHeight = this@Robot.height.toFloat()
+
+            x = APP_WIDTH / 2 - roboWidth / 2
+            y = APP_HEIGHT * 2 / 12 - robotHeight / 2
+            this.width = roboWidth
+            this.height = robotHeight
+        }
+
+    // todo convert to actor to use built in methods
+    fun draw(batch: SpriteBatch) {
+        batch.draw(texture, box.x, box.y)
+    }
+}

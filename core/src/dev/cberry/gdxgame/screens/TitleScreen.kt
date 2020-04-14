@@ -23,7 +23,9 @@ import dev.cberry.gdxgame.MyGame
  * 4. Make something move - done
  * 5. Integrate Box2D physics engine (https://github.com/libgdx/libgdx/wiki/Box2d)
  */
-class TitleScreen(val game: MyGame) : Screen {
+class TitleScreen(
+    private val game: MyGame
+) : Screen {
 
     private val badLogicTexture: Texture = Texture("images/badlogic.jpg")
     private val hollyTexture: Texture = Texture("images/holler.jpg")
