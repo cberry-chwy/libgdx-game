@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
@@ -59,17 +58,14 @@ class GameScreen(
             }
 
             camera.unproject(touchPos)
-            robot.box.x =
-                (touchPos.x - robot.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
-            robot.box.y =
-                (touchPos.y - robot.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - robot.height)
-//            }
+
+            robot.handleInput(touchPos)
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) robot.box.x =
-            (robot.box.x - 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
+            (robot.box.x - 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.box.width)
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) robot.box.x =
-            (robot.box.x + 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.width)
+            (robot.box.x + 200 * Gdx.graphics.deltaTime).coerceIn(0f, APP_WIDTH.toFloat() - robot.box.width)
 
         stage.act()
         stage.draw()
@@ -94,23 +90,33 @@ class GameScreen(
 
 class Robot(
     texturePath: String,
-    val width: Int,
-    val height: Int
+    private val width: Int,
+    private val height: Int
 ) {
+
     private val texture: Texture = Texture(texturePath)
 
     val box: Rectangle = Rectangle().apply {
-            val roboWidth = this@Robot.width.toFloat()
+            val robotWidth = this@Robot.width.toFloat()
             val robotHeight = this@Robot.height.toFloat()
-
-            x = APP_WIDTH / 2 - roboWidth / 2
+            x = APP_WIDTH / 2 - robotWidth / 2
             y = APP_HEIGHT * 2 / 12 - robotHeight / 2
-            this.width = roboWidth
-            this.height = robotHeight
+            this.width = robotWidth - 50
+            this.height = robotHeight - (robotHeight * ROBOT_HEIGHT_CUTOFF_PCT).toFloat()
         }
 
     // todo convert to actor to use built in methods
     fun draw(batch: SpriteBatch) {
         batch.draw(texture, box.x, box.y)
+    }
+
+    fun handleInput(touchPos: Vector3) {
+        box.x = (touchPos.x - box.width / 2).coerceIn(0f, APP_WIDTH.toFloat() - box.width)
+        box.y = (touchPos.y - box.height / 2).coerceIn(0f, APP_HEIGHT.toFloat() - box.height)
+    }
+
+    companion object {
+        val ROBOT_HEIGHT_CUTOFF_PCT = 0.28
+        val ROBOT_WIDTH_CUTOFF_PCT = 0.1
     }
 }

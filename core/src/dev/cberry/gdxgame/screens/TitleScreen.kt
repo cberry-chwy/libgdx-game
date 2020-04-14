@@ -1,5 +1,6 @@
 package dev.cberry.gdxgame.screens
 
+import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
@@ -13,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
+import dev.cberry.gdxgame.constants.START_SCREEN
+import dev.cberry.gdxgame.constants.Screens
 
 
 /**
@@ -90,7 +93,11 @@ class TitleScreen(
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         if (Gdx.input.isTouched) {
-            game.screen = GameScreen(game)
+            game.screen = when(START_SCREEN) {
+                Screens.TITLE -> TitleScreen(game)
+                Screens.GAME -> GameScreen(game)
+                Screens.BOX2D -> Box2dScreen()
+            }
         }
 
         stage.act()
