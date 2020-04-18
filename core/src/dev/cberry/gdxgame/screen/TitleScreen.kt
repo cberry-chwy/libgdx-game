@@ -1,4 +1,4 @@
-package dev.cberry.gdxgame.screens
+package dev.cberry.gdxgame.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.constants.START_SCREEN
 import dev.cberry.gdxgame.constants.Screens
-import dev.cberry.gdxgame.screens.grid.GridScreen
+import dev.cberry.gdxgame.screen.grid.GridScreen
 
 
 /**

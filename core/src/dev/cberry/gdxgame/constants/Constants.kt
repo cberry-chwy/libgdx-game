@@ -2,11 +2,11 @@ package dev.cberry.gdxgame.constants
 
 import com.badlogic.gdx.Application
 
-const val APP_HEIGHT = 480
-const val APP_WIDTH = 800
+const val APP_HEIGHT = 720
+const val APP_WIDTH = 1200
 
 const val TOTAL_TILES_WIDTH = 20
-const val TOTAL_TILES_HEIGHT = 20
+const val TOTAL_TILES_HEIGHT = 12
 
 const val TIME_STEP = 1/60f
 const val VELOCITY_ITERATIONS = 6
