@@ -14,7 +14,7 @@ class HeroActor : Image(texture) {
 
     companion object {
         val texture = Texture(
-            "source/rpg/kisspng-rpg-maker-mv-role-playing-video-game-sprite-2d-com-5b444a54b5fb60-0.png"
+            "images/rpg/sprite/character/hero-0.png"
         )
     }
 }
