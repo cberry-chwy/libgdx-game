@@ -1,6 +1,5 @@
 package dev.cberry.gdxgame.screens
 
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
@@ -16,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.constants.START_SCREEN
 import dev.cberry.gdxgame.constants.Screens
+import dev.cberry.gdxgame.screens.grid.GridScreen
 
 
 /**
@@ -97,6 +97,7 @@ class TitleScreen(
                 Screens.TITLE -> TitleScreen(game)
                 Screens.GAME -> GameScreen(game)
                 Screens.BOX2D -> Box2dScreen()
+                Screens.GRID -> GridScreen(game)
             }
         }
 
