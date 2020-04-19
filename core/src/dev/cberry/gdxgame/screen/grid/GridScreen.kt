@@ -3,6 +3,7 @@ package dev.cberry.gdxgame.screen.grid
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
@@ -17,8 +18,8 @@ class GridScreen(game: MyGame) : BaseScreen() {
 
     val stage: Stage = Stage(ScreenViewport())
 
-    val hero: Actor = HeroActor()
-    val enemy: Actor = EnemyActor()
+    val hero: HeroActor = HeroActor()
+    var enemy: EnemyActor = EnemyActor()
 
     init {
         stage.addActor(hero)
@@ -31,6 +32,13 @@ class GridScreen(game: MyGame) : BaseScreen() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         stage.act(delta)
         stage.draw()
+        stage.isDebugAll = true
+
+        if (hero.toRectangle().overlaps(enemy.toRectangle())) {
+            enemy.remove()
+            enemy = EnemyActor()
+            stage.addActor(enemy)
+        }
     }
 
     override fun dispose() {
@@ -41,3 +49,6 @@ class GridScreen(game: MyGame) : BaseScreen() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { Gdx.app.exit() }
     }
 }
+
+private fun Actor.toRectangle(): Rectangle =
+    Rectangle(x, y, width, height)
