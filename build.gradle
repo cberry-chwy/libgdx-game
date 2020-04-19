@@ -66,6 +66,11 @@ project(":core") {
     }
 }
 
-task configureIde {
+task configureIdeKtlint {
+    dependsOn ktlintApplyToIdea
     dependsOn addKtlintFormatGitPreCommitHook
 }
+
+task build
+
+build.finalizedBy(configureIdeKtlint)
