@@ -21,7 +21,6 @@ object MyGame : Game() {
 
         Gdx.app.logLevel = LOG_LEVEL
 
-
 //        bgMusic.isLooping = true
 //        bgMusic.play()
 
@@ -29,6 +28,5 @@ object MyGame : Game() {
     }
 
     override fun dispose() {
-
     }
 }

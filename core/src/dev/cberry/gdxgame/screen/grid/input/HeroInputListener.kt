@@ -38,7 +38,7 @@ class HeroInputListener(
 
         return true
     }
-    
+
     companion object {
         val CARDINAL_DIRECTION_MOVE_DURATION = 0.2f
     }

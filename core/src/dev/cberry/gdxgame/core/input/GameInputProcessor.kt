@@ -34,5 +34,4 @@ class GameInputProcessor : InputProcessor {
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         TODO("not implemented")
     }
-
 }

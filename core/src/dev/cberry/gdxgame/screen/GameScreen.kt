@@ -27,11 +27,9 @@ class GameScreen(
         Robot("images\\sprites\\Robot\\PNG\\Poses\\character_robot_idle.png", 96, 128)
 
     override fun hide() {
-
     }
 
     override fun show() {
-
     }
 
     override fun render(delta: Float) {
@@ -72,19 +70,15 @@ class GameScreen(
     }
 
     override fun pause() {
-
     }
 
     override fun resume() {
-
     }
 
     override fun resize(width: Int, height: Int) {
-
     }
 
     override fun dispose() {
-
     }
 }
 

@@ -21,7 +21,6 @@ import dev.cberry.gdxgame.constants.TIME_STEP
 import dev.cberry.gdxgame.constants.VELOCITY_ITERATIONS
 import dev.cberry.gdxgame.core.screen.BaseScreen
 
-
 class Box2dScreen : BaseScreen() {
 
     private val world: World = World(Vector2(0f, -10f), true)
@@ -127,14 +126,12 @@ class Box2dScreen : BaseScreen() {
     }
 
     private fun renderWorld(deltaTime: Float) {
-        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined)
     }
 
     override fun dispose() {
-        
     }
 
     override fun handleInput() {
-
     }
 }

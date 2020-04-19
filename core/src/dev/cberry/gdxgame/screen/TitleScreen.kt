@@ -17,7 +17,6 @@ import dev.cberry.gdxgame.constants.START_SCREEN
 import dev.cberry.gdxgame.constants.Screens
 import dev.cberry.gdxgame.screen.grid.GridScreen
 
-
 /**
  * Todo
  * 1. Text on title screen - done
@@ -81,7 +80,6 @@ class TitleScreen(
     }
 
     override fun hide() {
-
     }
 
     override fun show() {
@@ -93,7 +91,7 @@ class TitleScreen(
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         if (Gdx.input.isTouched) {
-            game.screen = when(START_SCREEN) {
+            game.screen = when (START_SCREEN) {
                 Screens.TITLE -> TitleScreen(game)
                 Screens.GAME -> GameScreen(game)
                 Screens.BOX2D -> Box2dScreen()
