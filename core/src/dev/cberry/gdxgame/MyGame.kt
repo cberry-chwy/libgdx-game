@@ -9,7 +9,6 @@ import dev.cberry.gdxgame.screen.TitleScreen
 
 /**
  * TODO
- * 1. ktlint
  */
 object MyGame : Game() {
 

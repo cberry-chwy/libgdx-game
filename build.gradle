@@ -65,3 +65,7 @@ project(":core") {
         api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
+
+task configureIde {
+    dependsOn addKtlintFormatGitPreCommitHook
+}
