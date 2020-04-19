@@ -1,8 +1,8 @@
-package dev.cberry.gdxgame.screen.grid.actor
+package dev.cberry.gdxgame.mode.rpg.actor
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import dev.cberry.gdxgame.screen.grid.input.HeroInputListener
+import dev.cberry.gdxgame.mode.rpg.input.HeroInputListener
 
 /**
  * TODO

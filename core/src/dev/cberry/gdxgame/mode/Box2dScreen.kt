@@ -1,4 +1,4 @@
-package dev.cberry.gdxgame.screen
+package dev.cberry.gdxgame.mode
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input

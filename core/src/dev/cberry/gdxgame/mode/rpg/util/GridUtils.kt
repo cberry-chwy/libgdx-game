@@ -1,4 +1,4 @@
-package dev.cberry.gdxgame.screen.grid.util
+package dev.cberry.gdxgame.mode.rpg.util
 
 import com.badlogic.gdx.math.Vector2
 import dev.cberry.gdxgame.constants.MAX_TILES_HEIGHT

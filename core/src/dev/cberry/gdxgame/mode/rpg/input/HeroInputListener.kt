@@ -1,4 +1,4 @@
-package dev.cberry.gdxgame.screen.grid.input
+package dev.cberry.gdxgame.mode.rpg.input
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -8,7 +8,7 @@ import dev.cberry.gdxgame.constants.APP_HEIGHT
 import dev.cberry.gdxgame.constants.APP_WIDTH
 import dev.cberry.gdxgame.constants.MAX_TILES_HEIGHT
 import dev.cberry.gdxgame.constants.MAX_TILES_WIDTH
-import dev.cberry.gdxgame.screen.grid.actor.HeroActor
+import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
 
 class HeroInputListener(
     private val actor: HeroActor

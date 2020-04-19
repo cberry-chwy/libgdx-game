@@ -1,11 +1,17 @@
 package dev.cberry.gdxgame.core.screen
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Disposable
+import com.badlogic.gdx.utils.viewport.ScreenViewport
 
 abstract class BaseScreen : Screen {
 
     val disposables: MutableList<Disposable> = mutableListOf()
+
+    protected val stage: Stage = Stage(ScreenViewport())
 
     override fun hide() {}
 
@@ -18,6 +24,10 @@ abstract class BaseScreen : Screen {
     override fun resize(width: Int, height: Int) {}
 
     final override fun render(delta: Float) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+        }
+
         handleInput()
         handleRender(delta)
     }
