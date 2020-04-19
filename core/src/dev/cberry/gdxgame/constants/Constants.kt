@@ -15,7 +15,7 @@ const val VELOCITY_ITERATIONS = 6
 const val POSITION_ITERATIONS = 2
 const val MAX_FRAME_TIME = 0.25f
 
-const val LOG_LEVEL = Application.LOG_INFO
+const val LOG_LEVEL = Application.LOG_DEBUG
 
 val START_SCREEN = Screens.GRID
 

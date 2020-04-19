@@ -7,13 +7,13 @@ import dev.cberry.gdxgame.screen.grid.input.HeroInputListener
 /**
  * TODO
  * 1. Switch orientation when going left vs right
- * 2. Animate
+ * 2. Sprite sheets & animation: https://www.youtube.com/watch?v=O0C9ZEdRfZI
  */
 class HeroActor : Image(texture) {
 
     init {
-        setBounds(x, y, width, height)
-        setScale(0.5f)
+        setBounds(x, y, width * 0.5f, height * 0.5f)
+        setScale(1.0f)
         addListener(HeroInputListener(this))
     }
 
