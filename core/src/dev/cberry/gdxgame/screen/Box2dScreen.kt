@@ -100,7 +100,7 @@ class Box2dScreen : BaseScreen() {
         groundBox.dispose()
     }
 
-    override fun render(delta: Float) {
+    override fun handleRender(delta: Float) {
         Gdx.app.log("Box2dScreen.render", "${this.ball.position}")
 
         Gdx.gl.glClearColor(0f, 0.5f, 0.5f, 1f)
@@ -132,5 +132,9 @@ class Box2dScreen : BaseScreen() {
 
     override fun dispose() {
         
+    }
+
+    override fun handleInput() {
+
     }
 }

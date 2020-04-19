@@ -17,7 +17,16 @@ abstract class BaseScreen : Screen {
 
     override fun resize(width: Int, height: Int) {}
 
+    final override fun render(delta: Float) {
+        handleInput()
+        handleRender(delta)
+    }
+
     override fun dispose() {
         disposables.forEach { it.dispose() }
     }
+
+    abstract fun handleInput()
+
+    abstract fun handleRender(delta: Float)
 }

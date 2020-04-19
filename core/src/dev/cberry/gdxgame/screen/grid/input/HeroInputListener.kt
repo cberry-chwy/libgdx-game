@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import dev.cberry.gdxgame.constants.APP_HEIGHT
 import dev.cberry.gdxgame.constants.APP_WIDTH
-import dev.cberry.gdxgame.constants.TOTAL_TILES_HEIGHT
-import dev.cberry.gdxgame.constants.TOTAL_TILES_WIDTH
+import dev.cberry.gdxgame.constants.MAX_TILES_HEIGHT
+import dev.cberry.gdxgame.constants.MAX_TILES_WIDTH
 import dev.cberry.gdxgame.screen.grid.actor.HeroActor
 
 class HeroInputListener(
@@ -20,16 +20,16 @@ class HeroInputListener(
 
         when (keycode) {
             Input.Keys.UP -> {
-                mta.setPosition(actor.x, actor.y + (APP_HEIGHT / TOTAL_TILES_HEIGHT))
+                mta.setPosition(actor.x, actor.y + (APP_HEIGHT / MAX_TILES_HEIGHT))
             }
             Input.Keys.DOWN -> {
-                mta.setPosition(actor.x, actor.y - (APP_HEIGHT / TOTAL_TILES_HEIGHT))
+                mta.setPosition(actor.x, actor.y - (APP_HEIGHT / MAX_TILES_HEIGHT))
             }
             Input.Keys.LEFT -> {
-                mta.setPosition(actor.x - (APP_WIDTH / TOTAL_TILES_WIDTH), actor.y)
+                mta.setPosition(actor.x - (APP_WIDTH / MAX_TILES_WIDTH), actor.y)
             }
             Input.Keys.RIGHT -> {
-                mta.setPosition(actor.x + (APP_WIDTH / TOTAL_TILES_WIDTH), actor.y)
+                mta.setPosition(actor.x + (APP_WIDTH / MAX_TILES_WIDTH), actor.y)
             }
         }
 

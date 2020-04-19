@@ -5,8 +5,10 @@ import com.badlogic.gdx.Application
 const val APP_HEIGHT = 720
 const val APP_WIDTH = 1200
 
-const val TOTAL_TILES_WIDTH = 20
-const val TOTAL_TILES_HEIGHT = 12
+const val MAX_TILES_WIDTH = 20
+const val MAX_TILES_HEIGHT = 12
+const val TILE_WIDTH = APP_WIDTH / MAX_TILES_WIDTH
+const val TILE_HEIGHT = APP_HEIGHT / MAX_TILES_WIDTH
 
 const val TIME_STEP = 1/60f
 const val VELOCITY_ITERATIONS = 6

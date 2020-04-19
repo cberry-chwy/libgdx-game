@@ -7,6 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import dev.cberry.gdxgame.constants.LOG_LEVEL
 import dev.cberry.gdxgame.screen.TitleScreen
 
+/**
+ * TODO
+ * 1. ktlint
+ */
 object MyGame : Game() {
 
     // lazily initialize so Application can be created first
