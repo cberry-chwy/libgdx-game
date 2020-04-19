@@ -38,8 +38,6 @@ class GridScreen(game: MyGame) : BaseScreen() {
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit()
-        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { Gdx.app.exit() }
     }
 }
