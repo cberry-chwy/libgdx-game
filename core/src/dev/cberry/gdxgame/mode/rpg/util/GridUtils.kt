@@ -11,7 +11,5 @@ fun getRandomGridVector(): Vector2 {
     val x = Random.nextInt(0, MAX_TILES_WIDTH) * TILE_WIDTH
     val y = Random.nextInt(0, MAX_TILES_HEIGHT) * TILE_HEIGHT
 
-    val a = 24 * 24
-
     return Vector2(x.toFloat(), y.toFloat())
 }
