@@ -13,12 +13,12 @@ import dev.cberry.gdxgame.mode.rpg.util.toRectangle
 
 class GridScreen(private val game: MyGame) : BaseScreen(game) {
     private val hero: HeroActor = HeroActor()
-    private var enemy: EnemyActor = getDefaultEnemy()
-    private var turnBasedEnemy: EnemyActor = EnemyActor("images/rpg.sprite/enemies/monsters/monster-9.png")
+        private var enemy: EnemyActor = getDefaultEnemy()
+            private var turnBasedEnemy: EnemyActor = EnemyActor("images/rpg.sprite/enemies/monsters/monster-9.png")
 
-    init {
-        stage.addActor(hero)
-        stage.addActor(enemy)
+        init {
+            stage.addActor(hero)
+stage.addActor(enemy)
         stage.addActor(turnBasedEnemy)
         Gdx.input.inputProcessor = stage
         stage.keyboardFocus = hero
@@ -31,7 +31,7 @@ class GridScreen(private val game: MyGame) : BaseScreen(game) {
         stage.isDebugAll = Gdx.app.logLevel == Application.LOG_DEBUG
 
         val heroRect = hero.toRectangle()
-
+        val unused = 1
         if (Gdx.app.logLevel == Application.LOG_DEBUG) {
             game.batch.begin()
             game.batch.draw(squareTexture, heroRect.x, heroRect.y, heroRect.width, heroRect.height)
