@@ -36,7 +36,7 @@ abstract class BaseScreen(private val game: MyGame?) : Screen {
             Gdx.app.exit()
         }
 
-        handleInput()
+        handleInput(delta)
         handleRender(delta)
 
         if (Gdx.app.logLevel == Application.LOG_DEBUG) {
@@ -62,7 +62,7 @@ abstract class BaseScreen(private val game: MyGame?) : Screen {
         disposables.forEach { it.dispose() }
     }
 
-    abstract fun handleInput()
+    abstract fun handleInput(delta: Float)
 
     abstract fun handleRender(delta: Float)
 

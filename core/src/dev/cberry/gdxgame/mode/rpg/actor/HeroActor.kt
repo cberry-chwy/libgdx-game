@@ -10,6 +10,7 @@ import dev.cberry.gdxgame.mode.rpg.input.HeroInputListener
  * 2. Sprite sheets & animation: https://www.youtube.com/watch?v=O0C9ZEdRfZI
  */
 class HeroActor : Image(texture) {
+    var health: Int = 100
 
     init {
         setBounds(x, y, width * 0.5f, height * 0.5f)

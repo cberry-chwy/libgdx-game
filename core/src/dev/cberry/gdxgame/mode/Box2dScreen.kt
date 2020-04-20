@@ -1,7 +1,6 @@
 package dev.cberry.gdxgame.mode
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
@@ -119,10 +118,7 @@ class Box2dScreen : BaseScreen(game = null) {
         }
     }
 
-    private fun handleInput(delta: Float) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit()
-        }
+    override fun handleInput(delta: Float) {
     }
 
     private fun renderWorld(deltaTime: Float) {
@@ -130,8 +126,5 @@ class Box2dScreen : BaseScreen(game = null) {
     }
 
     override fun dispose() {
-    }
-
-    override fun handleInput() {
     }
 }
