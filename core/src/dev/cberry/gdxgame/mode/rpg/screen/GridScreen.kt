@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.core.screen.BaseScreen
 import dev.cberry.gdxgame.mode.rpg.actor.EnemyActor
@@ -12,7 +11,7 @@ import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
 import dev.cberry.gdxgame.mode.rpg.util.overlaps
 import dev.cberry.gdxgame.mode.rpg.util.toRectangle
 
-class GridScreen(private val game: MyGame) : BaseScreen() {
+class GridScreen(private val game: MyGame) : BaseScreen(game) {
     private val hero: HeroActor = HeroActor()
     private var enemy: EnemyActor = getDefaultEnemy()
     private var turnBasedEnemy: EnemyActor = EnemyActor("images/rpg.sprite/enemies/monsters/monster-9.png")
@@ -26,9 +25,9 @@ class GridScreen(private val game: MyGame) : BaseScreen() {
     }
 
     override fun handleRender(delta: Float) {
+        Gdx.gl.glClearColor(0.33f, 0.7f, 0.2f, 1.0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         stage.act(delta)
-        stage.draw()
         stage.isDebugAll = Gdx.app.logLevel == Application.LOG_DEBUG
 
         val heroRect = hero.toRectangle()
@@ -46,9 +45,13 @@ class GridScreen(private val game: MyGame) : BaseScreen() {
         }
 
         if (hero.overlaps(turnBasedEnemy)) {
+            hero.actions.clear()
             stage.dispose()
+            stage.unfocusAll()
             game.screen = TurnBasedFightScreen(game, hero, turnBasedEnemy)
         }
+
+        stage.draw()
     }
 
     private fun getDefaultEnemy(): EnemyActor =
@@ -59,11 +62,8 @@ class GridScreen(private val game: MyGame) : BaseScreen() {
     }
 
     override fun handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { Gdx.app.exit() }
-    }
-
-    companion object {
-        val squareTexture: Texture = Texture("images/square.png")
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+        }
     }
 }
-

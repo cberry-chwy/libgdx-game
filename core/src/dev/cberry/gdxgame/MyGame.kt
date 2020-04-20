@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import dev.cberry.gdxgame.constants.LOG_LEVEL
-import dev.cberry.gdxgame.mode.TitleScreen
+import dev.cberry.gdxgame.mode.rpg.screen.GridScreen
 
 /**
  * TODO
@@ -23,7 +23,7 @@ object MyGame : Game() {
 //        bgMusic.isLooping = true
 //        bgMusic.play()
 
-        setScreen(TitleScreen(this))
+        setScreen(GridScreen(this))
     }
 
     override fun dispose() {
