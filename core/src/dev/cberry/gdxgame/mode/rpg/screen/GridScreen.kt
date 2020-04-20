@@ -19,7 +19,7 @@ class GridScreen(private val game: MyGame) : BaseScreen(game) {
 
     init {
         stage.addActor(hero)
-                stage.addActor(enemy)
+        stage.addActor(enemy)
         stage.addActor(turnBasedEnemy)
         Gdx.input.inputProcessor = stage
         stage.keyboardFocus = hero
