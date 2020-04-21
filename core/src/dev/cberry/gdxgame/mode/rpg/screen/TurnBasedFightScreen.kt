@@ -18,6 +18,12 @@ import dev.cberry.gdxgame.mode.rpg.util.setGridPosition
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
+/**
+ * TODO
+ * 1. health bar
+ * 2. different attacks
+ *
+ */
 class TurnBasedFightScreen(
     private val game: MyGame,
     private val hero: HeroActor,
@@ -32,7 +38,7 @@ class TurnBasedFightScreen(
 
     val button: TextButton = TextButton("Attack", game.skin, "default")
 
-    val label: Label = Label("Test", game.skin, "default")
+    val heroHealthLabel: Label = Label(hero.health.toString(), game.skin, "button")
 
     enum class Turn {
         HERO,
@@ -40,15 +46,15 @@ class TurnBasedFightScreen(
     }
 
     init {
-        hero.setScale(1.0f)
+        // hero.setScale(1.0f)
         hero.setGridPosition(2, 1)
         hero.scale(3.0)
 
-        enemy.setScale(1.0f)
+        // enemy.setScale(1.0f)
         enemy.setGridPosition(11, 4)
         enemy.scale(5.0)
 
-        label.setBounds(2f * TILE_WIDTH, 1f * TILE_HEIGHT, TILE_WIDTH * 3f, TILE_HEIGHT.toFloat())
+        heroHealthLabel.setBounds(2f * TILE_WIDTH, 1f * TILE_HEIGHT, TILE_WIDTH * 3f, TILE_HEIGHT.toFloat())
 
         button.setBounds(16f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
         button.addListener(object : InputListener() {
@@ -65,7 +71,7 @@ class TurnBasedFightScreen(
         stage.addActor(hero)
         stage.addActor(enemy)
         stage.addActor(button)
-        stage.addActor(label)
+        stage.addActor(heroHealthLabel)
 
         Gdx.input.inputProcessor = stage
     }
@@ -80,9 +86,11 @@ class TurnBasedFightScreen(
             Turn.ENEMY -> {
                 val attack = Random.nextInt(10)
                 hero.health -= attack
+                heroHealthLabel.setText(hero.health)
                 turn = Turn.HERO
             }
         }
+        hero.setGridPosition(2, 1)
     }
 
     private fun attackEnemy() {
@@ -104,7 +112,7 @@ class TurnBasedFightScreen(
             stage.unfocusAll()
             hero.actions.clear()
             stage.dispose()
-            game.screen = GridScreen(game, origHeroPosition.first.roundToInt(), origHeroPosition.second.roundToInt())
+            game.screen = GridScreen(game, GameState(hero, origHeroPosition.first.roundToInt(), origHeroPosition.second.roundToInt()))
         } else if (hero.health <= 0) {
             Gdx.app.exit()
         }
@@ -113,3 +121,9 @@ class TurnBasedFightScreen(
         stage.draw()
     }
 }
+
+data class GameState(
+    val hero: HeroActor = HeroActor(),
+    val heroX: Int = 0,
+    val heroY: Int = 0
+)

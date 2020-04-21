@@ -16,15 +16,17 @@ import dev.cberry.gdxgame.mode.rpg.util.toRectangle
 
 class GridScreen(
     private val game: MyGame,
-    heroX: Int = 1,
-    heroY: Int = 1
+    gameState: GameState = GameState()
 ) : BaseScreen(game) {
-    private val hero: HeroActor = HeroActor()
+    private val hero: HeroActor = gameState.hero
     private var enemy: EnemyActor = getDefaultEnemy()
     private var turnBasedEnemy: EnemyActor = EnemyActor("images/rpg.sprite/enemies/monsters/monster-9.png")
 
     init {
-        hero.setGridPosition(heroX, heroY)
+        hero.setGridPosition(gameState.heroX, gameState.heroY)
+        hero.width = HeroActor.width
+        hero.height = HeroActor.height
+
         stage.addActor(hero)
         stage.addActor(enemy)
         stage.addActor(turnBasedEnemy)
@@ -33,7 +35,7 @@ class GridScreen(
     }
 
     override fun handleRender(delta: Float) {
-        Gdx.gl.glClearColor(0.33f, 0.7f, 0.2f, 1.0f)
+        Gdx.gl.glClearColor(0.9f, 0.8f, 0.1f, 1.0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         stage.act(delta)
         stage.isDebugAll = Gdx.app.logLevel == Application.LOG_DEBUG

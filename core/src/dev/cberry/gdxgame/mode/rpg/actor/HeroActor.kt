@@ -13,7 +13,7 @@ class HeroActor : Image(texture) {
     var health: Int = 100
 
     init {
-        setBounds(x, y, width * 0.5f, height * 0.5f)
+        setBounds(x, y, HeroActor.width, HeroActor.height)
         setScale(1.0f)
         addListener(HeroInputListener(this))
     }
@@ -22,5 +22,8 @@ class HeroActor : Image(texture) {
         val texture = Texture(
             "images/rpg.sprite/character/hero/hero-0.png"
         )
+
+        val height = texture.height * 0.5f
+        val width = texture.width * 0.5f
     }
 }
