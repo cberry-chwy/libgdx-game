@@ -3,6 +3,10 @@ package dev.cberry.gdxgame.mode.rpg.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.constants.TILE_HEIGHT
 import dev.cberry.gdxgame.constants.TILE_WIDTH
@@ -26,6 +30,10 @@ class TurnBasedFightScreen(
 
     val origHeroPosition = hero.x / TILE_WIDTH to hero.y / TILE_HEIGHT
 
+    val button: TextButton = TextButton("Attack", game.skin, "default")
+
+    val label: Label = Label("Test", game.skin, "default")
+
     enum class Turn {
         HERO,
         ENEMY
@@ -40,17 +48,33 @@ class TurnBasedFightScreen(
         enemy.setGridPosition(11, 4)
         enemy.scale(5.0)
 
+        label.setBounds(2f * TILE_WIDTH, 1f * TILE_HEIGHT, TILE_WIDTH * 3f, TILE_HEIGHT.toFloat())
+
+        button.setBounds(16f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
+        button.addListener(object : InputListener() {
+            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                attackEnemy()
+            }
+
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+
+                return true
+            }
+        })
+
         stage.addActor(hero)
         stage.addActor(enemy)
+        stage.addActor(button)
+        stage.addActor(label)
+
+        Gdx.input.inputProcessor = stage
     }
 
     override fun handleInput(delta: Float) {
         when (turn) {
             Turn.HERO -> {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                    val attack = Random.nextInt(10)
-                    enemyHealth -= attack
-                    turn = Turn.ENEMY
+                    attackEnemy()
                 }
             }
             Turn.ENEMY -> {
@@ -59,6 +83,12 @@ class TurnBasedFightScreen(
                 turn = Turn.HERO
             }
         }
+    }
+
+    private fun attackEnemy() {
+        val attack = Random.nextInt(50)
+        enemyHealth -= attack
+        turn = Turn.ENEMY
     }
 
     override fun handleRender(delta: Float) {

@@ -4,7 +4,9 @@ import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import dev.cberry.gdxgame.MyGame
+import dev.cberry.gdxgame.constants.APP_HEIGHT
 import dev.cberry.gdxgame.core.screen.BaseScreen
 import dev.cberry.gdxgame.mode.rpg.actor.EnemyActor
 import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
@@ -55,6 +57,12 @@ class GridScreen(
             stage.dispose()
             stage.unfocusAll()
             game.screen = TurnBasedFightScreen(game, hero, turnBasedEnemy)
+        }
+
+        if (Gdx.input.isTouched) {
+            val mta = MoveToAction()
+            mta.setPosition(Gdx.input.x.toFloat(), APP_HEIGHT - Gdx.input.y.toFloat())
+            hero.addAction(mta)
         }
 
         stage.draw()

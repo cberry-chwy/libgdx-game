@@ -24,6 +24,7 @@ object MyGame : Game() {
 //        bgMusic.play()
 
         setScreen(GridScreen(this))
+        // setScreen(TitleScreen(this))
     }
 
     override fun dispose() {
