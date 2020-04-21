@@ -39,7 +39,8 @@ class TurnBasedFightScreen(
 
     val origHeroPosition = hero.x / TILE_WIDTH to hero.y / TILE_HEIGHT
 
-    val button: TextButton = TextButton("Attack", game.skin, "default")
+    val attackButton: TextButton = TextButton("Attack", game.skin, "default")
+    val escapeButton: TextButton = TextButton("Escape", game.skin, "default")
 
     val heroHealthLabel: Label = Label(hero.health.toString(), game.skin, "button")
 
@@ -62,13 +63,13 @@ class TurnBasedFightScreen(
         hero.setGridPosition(2, 1)
         hero.scale(3.0)
 
-        enemy.setGridPosition(11, ESCAPE_THRESHOLD)
+        enemy.setGridPosition(11, 4)
         enemy.scale(5.0)
 
         heroHealthLabel.setBounds(2f * TILE_WIDTH, 1f * TILE_HEIGHT, TILE_WIDTH * 3f, TILE_HEIGHT.toFloat())
 
-        button.setBounds(16f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
-        button.addListener(object : InputListener() {
+        attackButton.setBounds(9f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
+        attackButton.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
                 if (turn == Turn.HERO) {
                     attackEnemy()
@@ -80,9 +81,23 @@ class TurnBasedFightScreen(
             }
         })
 
+        escapeButton.setBounds(12f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
+        escapeButton.addListener(object : InputListener() {
+            override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
+                if (turn == Turn.HERO) {
+                    attemptEscape()
+                }
+            }
+
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
+                return true
+            }
+        })
+
         stage.addActor(hero)
         stage.addActor(enemy)
-        stage.addActor(button)
+        stage.addActor(attackButton)
+        stage.addActor(escapeButton)
         stage.addActor(heroHealthLabel)
         stage.addActor(statusLabel)
 
@@ -93,11 +108,7 @@ class TurnBasedFightScreen(
         if (actionAllowed()) {
             when (turn) {
                 Turn.HERO -> {
-                    if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                        attackEnemy()
-                    } else if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                        attemptEscape()
-                    }
+                    heroTurn()
                 }
                 Turn.ENEMY -> {
                     enemyTurn()
@@ -105,6 +116,16 @@ class TurnBasedFightScreen(
             }
             prevTime = elapsedTime
         }
+    }
+
+    private fun heroTurn() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            attackEnemy()
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            attemptEscape()
+        }
+
+        turn = Turn.ENEMY
     }
 
     private fun enemyTurn() {
@@ -123,12 +144,12 @@ class TurnBasedFightScreen(
         if (attempt > ESCAPE_THRESHOLD) {
             escapeBattle()
         }
+        statusLabel.setText("Escape attempt failed!")
     }
 
     private fun attackEnemy() {
         val attack = Random.nextInt(30)
         enemyHealth -= attack
-        turn = Turn.ENEMY
         statusLabel.setText("Hero hits enemy for $attack damage")
     }
 
@@ -143,8 +164,9 @@ class TurnBasedFightScreen(
         Gdx.app.debug("Hero", "Health: ${hero.health}")
         Gdx.app.debug("Enemy", "Heath: $enemyHealth")
 
-        // keep hero locked
+        // keep actors locked
         hero.setGridPosition(2, 1)
+        enemy.setGridPosition(11, 4)
 
         if (enemyHealth <= 0) {
             escapeBattle()

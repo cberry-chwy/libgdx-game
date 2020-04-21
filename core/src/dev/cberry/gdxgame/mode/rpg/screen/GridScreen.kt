@@ -11,6 +11,7 @@ import dev.cberry.gdxgame.core.screen.BaseScreen
 import dev.cberry.gdxgame.mode.rpg.actor.EnemyActor
 import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
 import dev.cberry.gdxgame.mode.rpg.core.game.GameState
+import dev.cberry.gdxgame.mode.rpg.util.getRandomGridVector
 import dev.cberry.gdxgame.mode.rpg.util.overlaps
 import dev.cberry.gdxgame.mode.rpg.util.setGridPosition
 import dev.cberry.gdxgame.mode.rpg.util.toRectangle
@@ -34,6 +35,8 @@ class GridScreen(
         Gdx.input.inputProcessor = stage
         stage.keyboardFocus = hero
     }
+
+    var lastMoveTime = 0f
 
     override fun handleRender(delta: Float) {
         Gdx.gl.glClearColor(0.9f, 0.4f, 0.2f, 1.0f)
@@ -69,6 +72,16 @@ class GridScreen(
             val mta = MoveToAction()
             mta.setPosition(Gdx.input.x.toFloat(), APP_HEIGHT - Gdx.input.y.toFloat())
             hero.addAction(mta)
+        }
+
+        if (elapsedTime - lastMoveTime > 3.0f) {
+            getRandomGridVector().let {
+                val mta = MoveToAction()
+                mta.setPosition(it.x, it.y)
+                mta.duration = 2.0f
+                turnBasedEnemy.addAction(mta)
+            }
+            lastMoveTime = elapsedTime
         }
 
         stage.draw()
