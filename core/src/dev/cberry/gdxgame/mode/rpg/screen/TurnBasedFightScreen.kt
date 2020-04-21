@@ -13,6 +13,7 @@ import dev.cberry.gdxgame.constants.TILE_WIDTH
 import dev.cberry.gdxgame.core.screen.BaseScreen
 import dev.cberry.gdxgame.mode.rpg.actor.EnemyActor
 import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
+import dev.cberry.gdxgame.mode.rpg.core.game.GameState
 import dev.cberry.gdxgame.mode.rpg.util.scale
 import dev.cberry.gdxgame.mode.rpg.util.setGridPosition
 import kotlin.math.roundToInt
@@ -30,6 +31,8 @@ class TurnBasedFightScreen(
     private val enemy: EnemyActor
 ) : BaseScreen(game) {
 
+    private var prevTime: Float = 0f
+
     var enemyHealth: Int = 100
 
     var turn: Turn = Turn.HERO
@@ -40,18 +43,26 @@ class TurnBasedFightScreen(
 
     val heroHealthLabel: Label = Label(hero.health.toString(), game.skin, "button")
 
+    val statusLabel: Label = Label("Battle started...", game.skin, "button")
+
     enum class Turn {
         HERO,
         ENEMY
     }
 
     init {
-        // hero.setScale(1.0f)
+
+        statusLabel.setBounds(
+            2f * TILE_WIDTH,
+            10f * TILE_HEIGHT,
+            TILE_WIDTH * 3f,
+            TILE_HEIGHT.toFloat()
+        )
+
         hero.setGridPosition(2, 1)
         hero.scale(3.0)
 
-        // enemy.setScale(1.0f)
-        enemy.setGridPosition(11, 4)
+        enemy.setGridPosition(11, ESCAPE_THRESHOLD)
         enemy.scale(5.0)
 
         heroHealthLabel.setBounds(2f * TILE_WIDTH, 1f * TILE_HEIGHT, TILE_WIDTH * 3f, TILE_HEIGHT.toFloat())
@@ -59,11 +70,12 @@ class TurnBasedFightScreen(
         button.setBounds(16f * TILE_WIDTH, 2f * TILE_HEIGHT, TILE_WIDTH * 2f, TILE_HEIGHT.toFloat())
         button.addListener(object : InputListener() {
             override fun touchUp(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
-                attackEnemy()
+                if (turn == Turn.HERO) {
+                    attackEnemy()
+                }
             }
 
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-
                 return true
             }
         })
@@ -72,47 +84,70 @@ class TurnBasedFightScreen(
         stage.addActor(enemy)
         stage.addActor(button)
         stage.addActor(heroHealthLabel)
+        stage.addActor(statusLabel)
 
         Gdx.input.inputProcessor = stage
     }
 
     override fun handleInput(delta: Float) {
-        when (turn) {
-            Turn.HERO -> {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                    attackEnemy()
+        if (actionAllowed()) {
+            when (turn) {
+                Turn.HERO -> {
+                    if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                        attackEnemy()
+                    } else if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                        attemptEscape()
+                    }
+                }
+                Turn.ENEMY -> {
+                    enemyTurn()
                 }
             }
-            Turn.ENEMY -> {
-                val attack = Random.nextInt(10)
-                hero.health -= attack
-                heroHealthLabel.setText(hero.health)
-                turn = Turn.HERO
-            }
+            prevTime = elapsedTime
         }
-        hero.setGridPosition(2, 1)
+    }
+
+    private fun enemyTurn() {
+        val attack = Random.nextInt(10)
+        hero.health -= attack
+        heroHealthLabel.setText(hero.health)
+        turn = Turn.HERO
+        statusLabel.setText("Enemy hits hero for $attack damage")
+    }
+
+    private fun actionAllowed(): Boolean =
+        elapsedTime - prevTime > TURN_DELAY
+
+    private fun attemptEscape() {
+        val attempt = Random.nextInt(10)
+        if (attempt > ESCAPE_THRESHOLD) {
+            escapeBattle()
+        }
     }
 
     private fun attackEnemy() {
-        val attack = Random.nextInt(50)
+        val attack = Random.nextInt(30)
         enemyHealth -= attack
         turn = Turn.ENEMY
+        statusLabel.setText("Hero hits enemy for $attack damage")
     }
 
     override fun handleRender(delta: Float) {
         Gdx.gl.glClearColor(0.23f, 0.1f, 0.5f, 1.0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+        renderDebugGrid()
+
         Gdx.app.debug("Render", "---------------------------")
-        Gdx.app.debug("Render", "Delta: $delta")
+        Gdx.app.debug("Render", "Time: $elapsedTime")
         Gdx.app.debug("Hero", "Health: ${hero.health}")
         Gdx.app.debug("Enemy", "Heath: $enemyHealth")
 
+        // keep hero locked
+        hero.setGridPosition(2, 1)
+
         if (enemyHealth <= 0) {
-            stage.unfocusAll()
-            hero.actions.clear()
-            stage.dispose()
-            game.screen = GridScreen(game, GameState(hero, origHeroPosition.first.roundToInt(), origHeroPosition.second.roundToInt()))
+            escapeBattle()
         } else if (hero.health <= 0) {
             Gdx.app.exit()
         }
@@ -120,10 +155,20 @@ class TurnBasedFightScreen(
         stage.act()
         stage.draw()
     }
-}
 
-data class GameState(
-    val hero: HeroActor = HeroActor(),
-    val heroX: Int = 0,
-    val heroY: Int = 0
-)
+    private fun escapeBattle() {
+        stage.unfocusAll()
+        hero.actions.clear()
+        stage.dispose()
+        game.screen =
+            GridScreen(
+                game,
+                GameState(hero, origHeroPosition.first.roundToInt(), origHeroPosition.second.roundToInt())
+            )
+    }
+
+    companion object {
+        private const val ESCAPE_THRESHOLD = 4
+        private const val TURN_DELAY = 2.0f
+    }
+}

@@ -10,6 +10,7 @@ import dev.cberry.gdxgame.constants.APP_HEIGHT
 import dev.cberry.gdxgame.core.screen.BaseScreen
 import dev.cberry.gdxgame.mode.rpg.actor.EnemyActor
 import dev.cberry.gdxgame.mode.rpg.actor.HeroActor
+import dev.cberry.gdxgame.mode.rpg.core.game.GameState
 import dev.cberry.gdxgame.mode.rpg.util.overlaps
 import dev.cberry.gdxgame.mode.rpg.util.setGridPosition
 import dev.cberry.gdxgame.mode.rpg.util.toRectangle
@@ -35,8 +36,11 @@ class GridScreen(
     }
 
     override fun handleRender(delta: Float) {
-        Gdx.gl.glClearColor(0.9f, 0.8f, 0.1f, 1.0f)
+        Gdx.gl.glClearColor(0.9f, 0.4f, 0.2f, 1.0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+        renderDebugGrid()
+
         stage.act(delta)
         stage.isDebugAll = Gdx.app.logLevel == Application.LOG_DEBUG
 

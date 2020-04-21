@@ -20,6 +20,8 @@ abstract class BaseScreen(private val game: MyGame?) : Screen {
 
     protected val stage: Stage = Stage(ScreenViewport())
 
+    var elapsedTime: Float = 0f
+
     override fun hide() {}
 
     override fun show() {}
@@ -31,14 +33,18 @@ abstract class BaseScreen(private val game: MyGame?) : Screen {
     override fun resize(width: Int, height: Int) {}
 
     final override fun render(delta: Float) {
+        incrementTime(delta)
+
         // universal exit
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit()
         }
 
-        handleInput(delta)
         handleRender(delta)
+        handleInput(delta)
+    }
 
+    protected fun renderDebugGrid() {
         if (Gdx.app.logLevel == Application.LOG_DEBUG) {
             game?.batch?.let { batch ->
                 batch.begin()
@@ -56,6 +62,10 @@ abstract class BaseScreen(private val game: MyGame?) : Screen {
                 batch.end()
             }
         }
+    }
+
+    private fun incrementTime(delta: Float) {
+        elapsedTime += delta
     }
 
     override fun dispose() {
