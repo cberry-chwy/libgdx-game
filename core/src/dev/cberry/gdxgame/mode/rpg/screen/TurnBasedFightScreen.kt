@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import dev.cberry.gdxgame.MyGame
@@ -136,6 +137,8 @@ class TurnBasedFightScreen(
     }
 
     private fun enemyTurn() {
+        enemy.addAction(Actions.moveBy(-0.5f * TILE_WIDTH, 0f, 0.2f))
+        enemy.addAction(Actions.moveBy(0.5f * TILE_WIDTH, 0f, 0.4f))
         val attack = Random.nextInt(10)
         hero.health -= attack
         heroHealthLabel.setText(hero.health)
@@ -156,6 +159,9 @@ class TurnBasedFightScreen(
     }
 
     private fun attackEnemy() {
+        hero.addAction(Actions.moveBy(0.5f * TILE_WIDTH, 0f, 0.2f))
+        hero.addAction(Actions.moveBy(-0.5f * TILE_WIDTH, 0f, 0.4f))
+
         val attack = Random.nextInt(30)
         enemyHealth -= attack
         progressBar.fillPercent = enemyHealth * .01f
@@ -182,8 +188,10 @@ class TurnBasedFightScreen(
         Gdx.app.debug("Enemy", "Heath: $enemyHealth")
 
         // keep actors locked
-        hero.setGridPosition(2, 1)
-        enemy.setGridPosition(11, 4)
+        if (elapsedTime < 1.0) {
+            hero.setGridPosition(2, 1)
+            enemy.setGridPosition(11, 4)
+        }
 
         if (enemyHealth <= 0) {
             escapeBattle()

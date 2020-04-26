@@ -19,9 +19,7 @@ class HeroActor : Image(texture) {
     }
 
     companion object {
-        val texture = Texture(
-            "images/rpg.sprite/character/hero/hero-0.png"
-        )
+        val texture = Texture("images/rpg.sprite/character/hero/hero-0.png")
 
         val height = texture.height * 0.5f
         val width = texture.width * 0.5f
