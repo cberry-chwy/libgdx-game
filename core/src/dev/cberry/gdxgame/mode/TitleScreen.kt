@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import dev.cberry.gdxgame.MyGame
 import dev.cberry.gdxgame.constants.START_SCREEN
 import dev.cberry.gdxgame.constants.Screens
+import dev.cberry.gdxgame.mode.animation.AnimationScreen
 import dev.cberry.gdxgame.mode.rpg.screen.GridScreen
 
 /**
@@ -96,6 +97,7 @@ class TitleScreen(
                 Screens.GAME -> GameScreen(game)
                 Screens.BOX2D -> Box2dScreen()
                 Screens.GRID -> GridScreen(game)
+                Screens.ANIMATION -> AnimationScreen(game)
             }
         }
 

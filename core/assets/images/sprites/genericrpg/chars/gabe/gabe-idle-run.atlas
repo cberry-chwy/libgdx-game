@@ -1,0 +1,54 @@
+gabe-idle-run-0.png
+size: 120, 24
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gabe-idle-run-0
+  rotate: false
+  xy: 54, 0
+  size: 17, 22
+  orig: 17, 22
+  offset: 0, 0
+  index: -1
+gabe-idle-run-1
+  rotate: false
+  xy: 71, 0
+  size: 17, 22
+  orig: 17, 22
+  offset: 0, 0
+  index: -1
+gabe-idle-run-2
+  rotate: false
+  xy: 105, 0
+  size: 15, 24
+  orig: 15, 24
+  offset: 0, 0
+  index: -1
+gabe-idle-run-3
+  rotate: false
+  xy: 20, 0
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: -1
+gabe-idle-run-4
+  rotate: false
+  xy: 88, 0
+  size: 17, 22
+  orig: 17, 22
+  offset: 0, 0
+  index: -1
+gabe-idle-run-5
+  rotate: false
+  xy: 38, 0
+  size: 16, 24
+  orig: 16, 24
+  offset: 0, 0
+  index: -1
+gabe-idle-run-6
+  rotate: false
+  xy: 0, 0
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: -1

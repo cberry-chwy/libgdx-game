@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import dev.cberry.gdxgame.constants.LOG_LEVEL
-import dev.cberry.gdxgame.mode.rpg.screen.GridScreen
+import dev.cberry.gdxgame.mode.animation.AnimationScreen
 
 /**
  * TODO
@@ -23,7 +23,7 @@ object MyGame : Game() {
 //        bgMusic.isLooping = true
 //        bgMusic.play()
 
-        setScreen(GridScreen(this))
+        setScreen(AnimationScreen(this))
         // setScreen(TitleScreen(this))
     }
 
